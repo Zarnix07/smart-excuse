@@ -16,7 +16,8 @@ export default function HomePage() {
 
   useEffect(() => {
     setIsClient(true);
-    setYearForFooter(new Date().getFullYear().toString());
+    // Set yearForFooter only on the client to avoid hydration mismatch if server and client timezones differ enough to change the year.
+    setYearForFooter(new Date().getFullYear().toString()); 
     try {
       const storedExcuses = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (storedExcuses) {
@@ -53,7 +54,7 @@ export default function HomePage() {
         <div className="flex items-center">
           <Brain className="h-10 w-10 mr-3 text-primary" />
           <h1 className="text-4xl font-bold text-foreground">
-            Smart Excuse
+            {isClient ? 'Smart Excuse' : 'Loading Excuse Engine...'}
           </h1>
         </div>
         <ModeToggle />
@@ -69,8 +70,6 @@ export default function HomePage() {
           <p>&copy; {yearForFooter} Smart Excuse Inc. Your alibis, intelligently crafted.</p>
         ) : (
           // Fallback for SSR or initial client render before year is set
-          // Using a non-breaking space to maintain similar layout structure.
-          // Consider a static year like "&copy; 2024 Smart Excuse Inc..." if SEO is critical for this line.
           <p>&nbsp;</p> 
         )}
       </footer>
