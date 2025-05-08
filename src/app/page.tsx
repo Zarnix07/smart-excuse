@@ -12,9 +12,11 @@ const LOCAL_STORAGE_KEY = 'smartExcuseApp_savedExcuses';
 export default function HomePage() {
   const [savedExcuses, setSavedExcuses] = useState<SavedExcuse[]>([]);
   const [isClient, setIsClient] = useState(false);
+  const [yearForFooter, setYearForFooter] = useState<string>('');
 
   useEffect(() => {
     setIsClient(true);
+    setYearForFooter(new Date().getFullYear().toString());
     try {
       const storedExcuses = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (storedExcuses) {
@@ -63,7 +65,14 @@ export default function HomePage() {
       </main>
 
       <footer className="mt-12 text-center text-muted-foreground text-sm">
-        <p>&copy; {new Date().getFullYear()} Smart Excuse Inc. Your alibis, intelligently crafted.</p>
+        {isClient && yearForFooter ? (
+          <p>&copy; {yearForFooter} Smart Excuse Inc. Your alibis, intelligently crafted.</p>
+        ) : (
+          // Fallback for SSR or initial client render before year is set
+          // Using a non-breaking space to maintain similar layout structure.
+          // Consider a static year like "&copy; 2024 Smart Excuse Inc..." if SEO is critical for this line.
+          <p>&nbsp;</p> 
+        )}
       </footer>
     </div>
   );
