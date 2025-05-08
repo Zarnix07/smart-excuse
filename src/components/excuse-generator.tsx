@@ -154,7 +154,6 @@ export function ExcuseGenerator({ onExcuseSaved }: ExcuseGeneratorProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value=""><em>None</em></SelectItem>
                         {urgencyOptions.map(opt => (
                           <SelectItem key={opt.value} value={opt.value}>
                             <div className="flex items-center">
@@ -183,7 +182,6 @@ export function ExcuseGenerator({ onExcuseSaved }: ExcuseGeneratorProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value=""><em>Default</em></SelectItem>
                         {believabilityOptions.map(opt => (
                           <SelectItem key={opt.value} value={opt.value}>
                             <div className="flex items-center">
